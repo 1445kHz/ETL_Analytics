@@ -1,0 +1,350 @@
+@page "/conflicts"
+@using AutoSysJilBlazor.Models
+@using AutoSysJilBlazor.Services
+@using Radzen.Blazor
+
+<PageTitle>Gantt Chart – Object Overlap</PageTitle>
+
+<RadzenText TextStyle="TextStyle.H4" Style="font-weight: 700; color: #0f172a; margin-bottom: 0.25rem;">Conflict Overlaps
+</RadzenText>
+<RadzenText TextStyle="TextStyle.Subtitle1" Style="color: #64748b; margin-bottom: 2rem;">
+    Weekly schedule of ETL jobs per database object – overlapping executions are highlighted in red.
+</RadzenText>
+
+<RadzenCard
+    Style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; background: #ffffff; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-end;">
+        <div>
+            <RadzenText TextStyle="TextStyle.Subtitle2"
+                        Style="color: #475569; font-weight: 600; margin-bottom: 0.4rem; display:block;">Week Start (Monday)
+            </RadzenText>
+            <RadzenDatePicker TValue="DateTime" @bind-Value="weekStart" DateFormat="yyyy-MM-dd"
+                              Change="@((_) => ganttRows = null)" Style="min-width: 180px; border-radius: 6px;" />
+        </div>
+        <div>
+            <RadzenText TextStyle="TextStyle.Subtitle2"
+                        Style="color: #475569; font-weight: 600; margin-bottom: 0.4rem; display:block;">Default Run Time (mins)
+            </RadzenText>
+            <RadzenNumeric TValue="int" @bind-Value="defaultRunMins" Min="1" Max="480"
+                           Change="@((_) => ganttRows = null)" Style="min-width: 120px; border-radius: 6px;" />
+        </div>
+        <div>
+            <RadzenText TextStyle="TextStyle.Subtitle2"
+                        Style="color: #475569; font-weight: 600; margin-bottom: 0.4rem; display:block;">Selected Day
+            </RadzenText>
+            <RadzenDropDown TValue="string" @bind-Value="selectedDayFilter" Data="@dayFilterOptions"
+                            Change="@OnDayFilterChanged" Style="min-width: 140px; border-radius: 6px;" />
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.6rem; align-self: flex-end; margin-bottom: 0.4rem;">
+            <RadzenSwitch @bind-Value="showConflictsOnly" Change="@OnConflictsOnlyChanged" />
+            <RadzenText TextStyle="TextStyle.Subtitle2" Style="color: #ef4444; font-weight: 700; margin: 0;">Show Conflicts Only</RadzenText>
+        </div>
+        <div>
+            <RadzenButton Click="@LoadGanttAsync" Text="Load Gantt" Icon="bar_chart" ButtonStyle="ButtonStyle.Primary"
+                          Style="border-radius: 6px;" IsBusy="@isLoading" />
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center; margin-left: auto; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <div style="width: 14px; height: 14px; background: #4f46e5; border-radius: 3px;"></div>
+                <RadzenText TextStyle="TextStyle.Caption" Style="color: #475569; font-weight: 500; margin: 0;">Normal
+                </RadzenText>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.4rem;">
+                <div style="width: 14px; height: 14px; background: #ef4444; border-radius: 3px;"></div>
+                <RadzenText TextStyle="TextStyle.Caption" Style="color: #475569; font-weight: 500; margin: 0;">
+                    Overlapping</RadzenText>
+                </div>
+            </div>
+        </div>
+    </RadzenCard>
+
+    @if (!string.IsNullOrWhiteSpace(statusMessage))
+    {
+        <RadzenAlert AlertStyle="AlertStyle.Danger" ShowIcon="true" Variant="Variant.Flat"
+                     Style="margin-bottom: 1.5rem; border-radius: 8px;">
+            @statusMessage
+        </RadzenAlert>
+    }
+
+    @if (isLoading)
+    {
+        <div style="display: flex; justify-content: center; padding: 4rem 0;">
+            <RadzenProgressBarCircular ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        </div>
+    }
+    else if (hierarchicalGanttRows is not null)
+    {
+        <RadzenCard
+            Style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 1.5rem;">
+            <RadzenGantt Data="@hierarchicalGanttRows" TItem="GanttRow" IdProperty="Id" ParentIdProperty="ParentId" 
+                         StartProperty="StartDateTime" EndProperty="EndDateTime" TextProperty="JobName" 
+                         StartDate="@ganttStartDate" EndDate="@ganttEndDate"
+                         TaskRender="@OnTaskRender" Style="height: 600px;">
+                <Columns>
+                    <RadzenGanttColumn Property="JobName" Title="Object / Job Name" Width="260px" />
+                    <RadzenGanttColumn Property="StartDateTime" Title="Start" Width="150px" FormatString="{0:yyyy-MM-dd HH:mm}" />
+                    <RadzenGanttColumn Property="EndDateTime" Title="End" Width="150px" FormatString="{0:yyyy-MM-dd HH:mm}" />
+                    <RadzenGanttColumn Property="RunTimeMinutes" Title="Runtime (min)" Width="120px" FormatString="{0:0.#}" />
+                </Columns>
+            </RadzenGantt>
+        </RadzenCard>
+
+                var overlapRows = ganttRows?.Where(r => r.IsOverlapping).ToList() ?? new List<GanttRow>();
+                @if (overlapRows.Any())
+                {
+                    <RadzenCard
+                        Style="border: 1px solid #fee2e2; border-radius: 8px; padding: 1.5rem; background: #fff5f5; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                            <span style="font-size: 1.25rem; color: #ef4444; font-weight: bold;">&#9888;</span>
+                            <RadzenText TextStyle="TextStyle.H6" Style="color: #991b1b; font-weight: 700; margin: 0;">
+                                Overlapping Executions (@overlapRows.Count rows affected)
+                            </RadzenText>
+                        </div>
+                        <RadzenDataGrid Data="@overlapRows" TItem="GanttRow" AllowPaging="true" PageSize="10" AllowSorting="true"
+                                        AllowFiltering="true" AllowColumnResize="true" class="w-100"
+                                        Style="border-radius: 6px; border: 1px solid #fee2e2; background: #ffffff;">
+                            <Columns>
+                                <RadzenDataGridColumn TItem="GanttRow" Property="JobName" Title="Job" Width="160px" />
+                                <RadzenDataGridColumn TItem="GanttRow" Property="ObjectKey" Title="Object" Width="220px" />
+                                <RadzenDataGridColumn TItem="GanttRow" Property="PackageName" Title="Package" Width="150px" />
+                                <RadzenDataGridColumn TItem="GanttRow" Property="StartDateTime" Title="Start" Width="170px">
+                                    <Template Context="r">@r.StartDateTime.ToString("ddd yyyy-MM-dd HH:mm")</Template>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="GanttRow" Property="EndDateTime" Title="End" Width="170px">
+                                    <Template Context="r">@r.EndDateTime.ToString("ddd yyyy-MM-dd HH:mm")</Template>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="GanttRow" Property="RunTimeMinutes" Title="Runtime (min)" Width="120px">
+                                    <Template Context="r">@r.RunTimeMinutes.ToString("0.#")</Template>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="GanttRow" Property="OverlapCount" Title="Overlaps" Width="100px" />
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenCard>
+                }
+                else
+                {
+                    <RadzenCard
+                        Style="border: 1px solid #dcfce7; border-radius: 8px; padding: 1.5rem; background: #f0fdf4; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 1.25rem; color: #22c55e; font-weight: bold;">&#10003;</span>
+                            <RadzenText TextStyle="TextStyle.H6" Style="color: #166534; font-weight: 700; margin: 0;">No Object Overlaps
+                                Detected This Week</RadzenText>
+                            </div>
+                        </RadzenCard>
+                    }
+                }
+
+@code {
+    [Inject] private SqlDatabaseService SqlDatabaseService { get; set; } = default!;
+
+    private DateTime weekStart = GetMostRecentMonday();
+    private int defaultRunMins = 15;
+    private bool isLoading;
+    private string statusMessage = string.Empty;
+    private IReadOnlyList<GanttRow>? ganttRows;
+    private List<GanttRow>? hierarchicalGanttRows;
+
+    private string selectedDayFilter = "Monday"; // Default to Monday for close-up view
+    private bool showConflictsOnly = false;
+    private DateTime ganttStartDate;
+    private DateTime ganttEndDate;
+
+    private readonly List<string> dayFilterOptions = new() { "All", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadGanttAsync();
+    }
+
+    private void OnDayFilterChanged()
+    {
+        BuildHierarchy();
+    }
+
+    private void OnConflictsOnlyChanged()
+    {
+        BuildHierarchy();
+    }
+
+    private async Task LoadGanttAsync()
+    {
+        isLoading = true;
+        statusMessage = string.Empty;
+        ganttRows = null;
+        hierarchicalGanttRows = null;
+        StateHasChanged();
+        try
+        {
+            var rawRows = await SqlDatabaseService.GetGanttDataAsync(weekStart, defaultRunMins);
+            ganttRows = rawRows;
+            BuildHierarchy();
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Error loading Gantt data: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void BuildHierarchy()
+    {
+        if (ganttRows == null) return;
+
+        DateTime targetStart = weekStart;
+        DateTime targetEnd = weekStart.AddDays(7);
+
+        if (selectedDayFilter != "All")
+        {
+            int offset = selectedDayFilter switch
+            {
+                "Monday" => 0,
+                "Tuesday" => 1,
+                "Wednesday" => 2,
+                "Thursday" => 3,
+                "Friday" => 4,
+                "Saturday" => 5,
+                "Sunday" => 6,
+                _ => 0
+            };
+            targetStart = weekStart.AddDays(offset);
+            targetEnd = targetStart.AddDays(1);
+        }
+
+        ganttStartDate = targetStart;
+        ganttEndDate = targetEnd;
+
+        var processed = new List<GanttRow>();
+        
+        // Filter raw rows for executions active in our selected window
+        var filteredRawRows = ganttRows
+            .Where(r => r.StartDateTime < targetEnd && r.EndDateTime > targetStart)
+            .ToList();
+
+        if (showConflictsOnly)
+        {
+            // Only keep rows that represent an overlap collision
+            filteredRawRows = filteredRawRows.Where(r => r.IsOverlapping).ToList();
+        }
+
+        var groups = filteredRawRows.GroupBy(r => r.ObjectKey).ToList();
+
+        int parentIdx = 1;
+        int childIdx = 1;
+        foreach (var group in groups)
+        {
+            var objectKey = group.Key;
+            if (string.IsNullOrWhiteSpace(objectKey) || objectKey == "....")
+            {
+                objectKey = "(no object)";
+            }
+
+            var parentRowId = $"parent_{parentIdx++}";
+            var hasOverlappingChild = group.Any(r => r.IsOverlapping);
+            var minStart = group.Min(r => r.StartDateTime);
+            var maxEnd = group.Max(r => r.EndDateTime);
+
+            // Clamp parent times to target start/end for neat visual limits
+            if (minStart < targetStart) minStart = targetStart;
+            if (maxEnd > targetEnd) maxEnd = targetEnd;
+
+            var parentRow = new GanttRow
+            {
+                Id = parentRowId,
+                ParentId = null,
+                JobName = objectKey,
+                ObjectKey = objectKey,
+                StartDateTime = minStart,
+                EndDateTime = maxEnd,
+                OverlapFlag = hasOverlappingChild ? 1 : 0,
+                OverlapCount = group.Sum(r => r.OverlapCount),
+                RunTimeMinutes = (decimal)(maxEnd - minStart).TotalMinutes
+            };
+            processed.Add(parentRow);
+
+            foreach (var child in group)
+            {
+                child.Id = $"child_{childIdx++}";
+                child.ParentId = parentRowId;
+            }
+
+            // Split child executions into non-overlapping and overlapping intervals
+            var boundaries = group
+                .SelectMany(r => new[] { r.StartDateTime, r.EndDateTime })
+                .Distinct()
+                .OrderBy(t => t)
+                .ToList();
+
+            for (int i = 0; i < boundaries.Count - 1; i++)
+            {
+                var tStart = boundaries[i];
+                var tEnd = boundaries[i + 1];
+
+                // Clamp sub-segments to the filtered day range
+                if (tStart < targetStart) tStart = targetStart;
+                if (tEnd > targetEnd) tEnd = targetEnd;
+                if (tStart >= tEnd) continue;
+
+                var activeRuns = group
+                    .Where(r => r.StartDateTime < tEnd && r.EndDateTime > tStart)
+                    .ToList();
+
+                if (activeRuns.Count == 0) continue;
+
+                bool isIntervalOverlapping = activeRuns.Count > 1;
+
+                foreach (var run in activeRuns)
+                {
+                    var displayName = string.IsNullOrWhiteSpace(run.PackageName) ? run.JobName : run.PackageName;
+                    var segment = new GanttRow
+                    {
+                        Id = $"child_{childIdx++}",
+                        ParentId = parentRowId,
+                        JobName = isIntervalOverlapping ? $"{displayName} (Overlap)" : displayName,
+                        ObjectKey = run.ObjectKey,
+                        PackageName = run.PackageName,
+                        DatabaseServer = run.DatabaseServer,
+                        Database = run.Database,
+                        Schema = run.Schema,
+                        ObjectName = run.ObjectName,
+                        StartDateTime = tStart,
+                        EndDateTime = tEnd,
+                        OverlapFlag = isIntervalOverlapping ? 1 : 0,
+                        OverlapCount = run.OverlapCount,
+                        RunTimeMinutes = (decimal)(tEnd - tStart).TotalMinutes
+                    };
+                    processed.Add(segment);
+                }
+            }
+        }
+        hierarchicalGanttRows = processed;
+    }
+
+    private void OnTaskRender(GanttBarRenderEventArgs<GanttRow> args)
+    {
+        if (args.Data.ParentId == null)
+        {
+            // Hide the parent row container bar completely from the timeline so it doesn't span times of inactivity
+            args.Attributes["style"] = "display: none;";
+        }
+        else if (args.Data.IsOverlapping)
+        {
+            // Child segment that actually has an execution overlap
+            args.Attributes["style"] = "background-color: #ef4444; border-color: #dc2626;";
+        }
+        else
+        {
+            // Child segment with normal non-overlapping execution
+            args.Attributes["style"] = "background-color: #4f46e5; border-color: #4338ca;";
+        }
+    }
+
+    private static DateTime GetMostRecentMonday()
+    {
+        var today = DateTime.Today;
+        int diff = ((int)today.DayOfWeek - (int)DayOfWeek.Monday + 7) % 7;
+        return today.AddDays(-diff);
+    }
+}

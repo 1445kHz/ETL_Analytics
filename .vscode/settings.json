@@ -1,0 +1,21 @@
+{
+    "sqltools.connections": [
+        {
+            "connectionTimeout": 15,
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true,
+                "trustServerCertificate": true
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "T15P",
+            "port": 1433,
+            "driver": "MSSQL",
+            "database": "TRAIN",
+            "username": "sa",
+            "name": "TRAIN"
+        }
+    ]
+}

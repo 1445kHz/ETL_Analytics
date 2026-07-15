@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.7.11925.98 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoSysJilBlazor", "AutoSysJilBlazor\AutoSysJilBlazor.csproj", "{A7DB890A-183E-4522-F59E-960C06308A64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Development|Any CPU = Development|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7DB890A-183E-4522-F59E-960C06308A64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7DB890A-183E-4522-F59E-960C06308A64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7DB890A-183E-4522-F59E-960C06308A64}.Development|Any CPU.ActiveCfg = Release|Any CPU
+		{A7DB890A-183E-4522-F59E-960C06308A64}.Development|Any CPU.Build.0 = Release|Any CPU
+		{A7DB890A-183E-4522-F59E-960C06308A64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7DB890A-183E-4522-F59E-960C06308A64}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0A0D751-16BB-4716-8E0A-AD2EF1F1BEF3}
+	EndGlobalSection
+EndGlobal

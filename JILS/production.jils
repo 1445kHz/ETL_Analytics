@@ -1,0 +1,111 @@
+insert_job: 7045kHz_AdvWorks_Sales_Processing_0
+job_type: CMD
+command:  C:\ETL_Analytics\SSIS_Example_Executions\BAT\P_7045kHz_AdvWorks_Sales_Processing_0.bat
+machine: SERVER01
+owner: autosys
+permission:
+date_conditions: 1
+days_of_week: all
+start_mins: 00
+timezone: US/Eastern
+description: "Run every hour at 0 minutes past the hour"
+std_out_file:  C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Processing_0.out
+std_err_file:  C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Processing_0.err
+alarm_if_fail: 1
+application: 7045kHz
+
+insert_job: 7045kHz_AdvWorks_Sales_Processing_15
+job_type: CMD
+command:  C:\ETL_Analytics\SSIS_Example_Executions\BAT\P_7045kHz_AdvWorks_Sales_Processing_15.bat
+machine: SERVER01
+owner: autosys
+permission:
+date_conditions: 1
+days_of_week: all
+start_mins: 15
+timezone: US/Eastern
+description: "Run every hour at 15 minutes past the hour"
+std_out_file:  C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Processing_15.out
+std_err_file:  C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Processing_15.err
+alarm_if_fail: 1
+application: 7045kHz
+
+insert_job: 7045kHz_AdvWorks_Sales_Processing_30
+job_type: CMD
+command:  C:\ETL_Analytics\SSIS_Example_Executions\BAT\P_7045kHz_AdvWorks_Sales_Processing_30.bat
+machine: SERVER01
+owner: autosys
+permission:
+date_conditions: 1
+days_of_week: all
+start_mins: 30
+timezone: US/Eastern
+description: "Run every hour at 30 minutes past the hour"
+std_out_file:  C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Processing_30.out
+std_err_file:  C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Processing_30.err
+alarm_if_fail: 1
+application: 7045kHz
+
+insert_job: 7045kHz_AdvWorks_Sales_Processing_45
+job_type: CMD
+command:  C:\ETL_Analytics\SSIS_Example_Executions\BAT\P_7045kHz_AdvWorks_Sales_Processing_45.bat
+machine: SERVER01
+owner: autosys
+permission:
+date_conditions: 1
+days_of_week: all
+start_mins: 45
+timezone: US/Eastern
+description: "Run every hour at 45 minutes past the hour"
+std_out_file:  C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Processing_45.out
+std_err_file:  C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Processing_45.err
+alarm_if_fail: 1
+application: 7045kHz
+
+insert_job: 7045kHz_AdvWorks_Currency_Rate_Updates_35
+job_type: CMD
+command: C:\ETL_Analytics\SSIS_Example_Executions\BAT\P_7045kHz_AdvWorks_Currency_Rate_Updates_35.bat
+machine: SERVER01
+owner: autosys
+permission:
+date_conditions: 1
+days_of_week: all
+start_times: "00:35,04:35,14:35,20:35"
+timezone: US/Eastern
+description: "Run at 00:35, 04:35, 14:35, and 20:35 daily"
+std_out_file: C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Currency_Rate_Updates_35.out
+std_err_file: C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Currency_Rate_Updates_35.err
+alarm_if_fail: 1
+application: 7045kHz
+
+insert_job: 7045kHz_AdvWorks_WorkOrder_Routing
+job_type: CMD
+command: C:\ETL_Analytics\SSIS_Example_Executions\BAT\P_7045kHz_AdvWorks_WorkOrder_Routing.bat
+machine: SERVER01
+owner: autosys
+permission:
+date_conditions: 1
+days_of_week: all
+start_times: "00:0,04:35,14:40,20:10"
+timezone: US/Eastern
+description: "Run at 00:0, 04:35, 14:40, and 20:10 daily"
+std_out_file: C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_WorkOrder_Routing.out
+std_err_file: C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_WorkOrder_Routing.err
+alarm_if_fail: 1
+application: 7045kHz
+
+insert_job: 7045kHz_AdvWorks_Sales_Marketing_Report
+job_type: CMD
+command: C:\ETL_Analytics\SSIS_Example_Executions\BAT\P_7045kHz_AdvWorks_Sales_Marketing_Report.bat
+machine: SERVER01
+owner: autosys
+permission:
+date_conditions: 1
+days_of_week: all
+start_times: "04:15,21:15"
+timezone: US/Eastern
+description: "Run at 04:15 and 21:15 daily"
+std_out_file: C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Marketing_Report.out
+std_err_file: C:\ETL_Analytics\SSIS_Example_Executions\Logs\7045kHz_AdvWorks_Sales_Marketing_Report.err
+alarm_if_fail: 1
+application: 7045kHz

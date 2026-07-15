@@ -1,0 +1,6 @@
+PackageName,database_server,database,schema,object_name,object_type,ImportedAt
+7045kHz_AdvWorks_Currency_Rate_Updates.dtsx,localhost,[AdventureWorks2022],[Sales],[Currency],,2026-07-12 18:54:09
+7045kHz_AdvWorks_Currency_Rate_Updates.dtsx,localhost,[AdventureWorks2022],[Sales],[CurrencyRate],T,2026-07-12 18:53:07
+7045kHz_AdvWorks_Sales_Marketing_Report.dtsx,localhost,[AdventureWorks2022],[Sales],[SpecialOffer],T,2026-07-12 18:52:17
+7045kHz_AdvWorks_Sales_Processing.dtsx,localhost,[AdventureWorks2022],[Sales],[SpecialOffer],T,2026-07-12 18:49:31
+7045kHz_AdvWorks_Sales_Processing.dtsx,localhost,[AdventureWorks2022],[Sales],[SpecialOfferProduct],T,2026-07-12 18:46:06
