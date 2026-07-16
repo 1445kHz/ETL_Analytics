@@ -1,0 +1,974 @@
+{
+  "settings": {
+    "components": {
+      "code": true,
+      "binaries": false
+    },
+    "targetId": "net10.0",
+    "targetDisplayName": ".NETCoreApp,Version=v10.0"
+  },
+  "analysisStartTime": "2026-07-16T19:45:22.1421248Z",
+  "analysisEndTime": "2026-07-16T19:45:22.4761997Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 3,
+      "issues": 5,
+      "incidents": 32,
+      "effort": 32
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 14,
+        "Optional": 1,
+        "Potential": 17,
+        "Information": 0
+      },
+      "category": {
+        "NuGet": 17,
+        "Project": 3,
+        "Api": 12
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+      "startingProject": true,
+      "issues": 4,
+      "storyPoints": 11,
+      "properties": {
+        "appName": "DTSXDataLoader.Console",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 6,
+        "numberOfCodeFiles": 6,
+        "linesTotal": 597,
+        "linesOfCode": 597,
+        "totalApiScanned": 531,
+        "minLinesOfCodeToChange": 2,
+        "maxLinesOfCodeToChange": 2
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "b0f3854c-b3c3-4b69-9831-49fbe2a4a983",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+            "snippet": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.10",
+            "label": "Microsoft.Extensions.Configuration 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "04a932f3-8d74-4482-be7e-39661c487751",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.10",
+            "label": "Microsoft.Extensions.Configuration.Binder 8.0.2",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.Binder",
+              "PackageVersion": "8.0.2",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c8c2ee7a-de4f-4389-be96-9edaf7f8d84e",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.CommandLine, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.CommandLine, and replace with new package Microsoft.Extensions.Configuration.CommandLine 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration.CommandLine, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.CommandLine, and replace with new package Microsoft.Extensions.Configuration.CommandLine 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.CommandLine, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.CommandLine, and replace with new package Microsoft.Extensions.Configuration.CommandLine 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.CommandLine, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.CommandLine, and replace with new package Microsoft.Extensions.Configuration.CommandLine 10.0.10",
+            "label": "Microsoft.Extensions.Configuration.CommandLine 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.CommandLine",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "5d07bcd1-0b8b-45db-aafb-7f5907bd42fb",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.EnvironmentVariables, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration.EnvironmentVariables, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.EnvironmentVariables, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.EnvironmentVariables, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.10",
+            "label": "Microsoft.Extensions.Configuration.EnvironmentVariables 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.EnvironmentVariables",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "ca9b8e75-581d-4ffe-aafd-66ec58c575c9",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.Json, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration.Json, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.Json, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.Json, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.10",
+            "label": "Microsoft.Extensions.Configuration.Json 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.Json",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "9bb8af81-97fb-4833-ad8e-ba4ef0e84005",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.10",
+              "protected": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+            "snippet": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.10",
+            "label": "Microsoft.Extensions.DependencyInjection 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.DependencyInjection",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "f0c6158d-a23b-4306-98f7-e297aba275d3",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Logging.Console, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.10",
+              "protected": "Microsoft.Extensions.Logging.Console, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+            "snippet": "Microsoft.Extensions.Logging.Console, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Logging.Console, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.10",
+            "label": "Microsoft.Extensions.Logging.Console 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Logging.Console",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "dfd4e30e-1c17-4df9-bf75-d06d080e9445",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Newtonsoft.Json, 13.0.3\n\nRecommendation:\n\nRemove Newtonsoft.Json, and replace with new package Newtonsoft.Json 13.0.4",
+              "protected": "Newtonsoft.Json, 13.0.3\n\nRecommendation:\n\nRemove Newtonsoft.Json, and replace with new package Newtonsoft.Json 13.0.4"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+            "snippet": "Newtonsoft.Json, 13.0.3\n\nRecommendation:\n\nRemove Newtonsoft.Json, and replace with new package Newtonsoft.Json 13.0.4",
+            "protectedSnippet": "Newtonsoft.Json, 13.0.3\n\nRecommendation:\n\nRemove Newtonsoft.Json, and replace with new package Newtonsoft.Json 13.0.4",
+            "label": "Newtonsoft.Json 13.0.3",
+            "properties": {
+              "PackageId": "Newtonsoft.Json",
+              "PackageVersion": "13.0.3",
+              "PackageNewVersion": "13.0.4",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "b3f19576-d693-408f-9d1d-def8606a40b7",
+          "ruleId": "Project.0002",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "0c9ed6e1-f7e6-4625-92be-6ce71842b671",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "xpaths = configuration.GetSection(\u0022ScanElements\u0022).Get\u003CList\u003Cstring\u003E\u003E();",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.Get\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\Program.cs",
+            "snippet": "xpaths = configuration.GetSection(\u0022ScanElements\u0022).Get\u003CList\u003Cstring\u003E\u003E();",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.Get\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.Get\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 241,
+            "column": 28
+          }
+        },
+        {
+          "incidentId": "493d54fd-2942-4fdc-abcb-d3ca35bf398c",
+          "ruleId": "Api.0003",
+          "description": "Breaking change: Message no longer duplicated in Console log output ",
+          "projectPath": "DTSXDataLoader.Console\\DTSXDataLoader.Console.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "builder\r\n                .AddFilter(\u0022Microsoft\u0022, LogLevel.Information)\r\n                .AddFilter(\u0022System\u0022, LogLevel.Information)\r\n                .AddFilter(\u0022DataReader.Program\u0022, LogLevel.Debug)\r\n                .AddConsole();",
+              "protected": "M:Microsoft.Extensions.Logging.ConsoleLoggerExtensions.AddConsole(Microsoft.Extensions.Logging.ILoggingBuilder)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Console\\Program.cs",
+            "snippet": "builder\r\n                .AddFilter(\u0022Microsoft\u0022, LogLevel.Information)\r\n                .AddFilter(\u0022System\u0022, LogLevel.Information)\r\n                .AddFilter(\u0022DataReader.Program\u0022, LogLevel.Debug)\r\n                .AddConsole();",
+            "protectedSnippet": "M:Microsoft.Extensions.Logging.ConsoleLoggerExtensions.AddConsole(Microsoft.Extensions.Logging.ILoggingBuilder)",
+            "label": "M:Microsoft.Extensions.Logging.ConsoleLoggerExtensions.AddConsole(Microsoft.Extensions.Logging.ILoggingBuilder)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/console-json-logging-duplicate-messages.md",
+                "isCustom": false
+              }
+            ],
+            "line": 29,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+      "startingProject": true,
+      "issues": 3,
+      "storyPoints": 19,
+      "properties": {
+        "appName": "DTSXDataLoader.Core",
+        "projectKind": "ClassLibrary",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 20,
+        "numberOfCodeFiles": 20,
+        "linesTotal": 1763,
+        "linesOfCode": 1763,
+        "totalApiScanned": 1952,
+        "minLinesOfCodeToChange": 10,
+        "maxLinesOfCodeToChange": 10
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "f857a6f7-06f3-4f7c-b5f9-8ffbec1944af",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+            "snippet": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration, and replace with new package Microsoft.Extensions.Configuration 10.0.10",
+            "label": "Microsoft.Extensions.Configuration 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "146a301b-e47f-4a1a-b8c8-d6424e54598f",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.Binder, 8.0.2\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Binder, and replace with new package Microsoft.Extensions.Configuration.Binder 10.0.10",
+            "label": "Microsoft.Extensions.Configuration.Binder 8.0.2",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.Binder",
+              "PackageVersion": "8.0.2",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "5f89d984-1e15-494b-9ae7-ddf3740b728b",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.CommandLine, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.CommandLine, and replace with new package Microsoft.Extensions.Configuration.CommandLine 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration.CommandLine, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.CommandLine, and replace with new package Microsoft.Extensions.Configuration.CommandLine 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.CommandLine, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.CommandLine, and replace with new package Microsoft.Extensions.Configuration.CommandLine 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.CommandLine, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.CommandLine, and replace with new package Microsoft.Extensions.Configuration.CommandLine 10.0.10",
+            "label": "Microsoft.Extensions.Configuration.CommandLine 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.CommandLine",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "d6f5e2e1-3b7d-4358-8907-33125dae9623",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.EnvironmentVariables, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration.EnvironmentVariables, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.EnvironmentVariables, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.EnvironmentVariables, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.EnvironmentVariables, and replace with new package Microsoft.Extensions.Configuration.EnvironmentVariables 10.0.10",
+            "label": "Microsoft.Extensions.Configuration.EnvironmentVariables 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.EnvironmentVariables",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "9e620284-fbd3-4176-968e-91a27988c978",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.Json, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.10",
+              "protected": "Microsoft.Extensions.Configuration.Json, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.Json, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.Json, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Configuration.Json, and replace with new package Microsoft.Extensions.Configuration.Json 10.0.10",
+            "label": "Microsoft.Extensions.Configuration.Json 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Configuration.Json",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c8932017-d851-4bb9-bf32-5269fa9ebb86",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.10",
+              "protected": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+            "snippet": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.DependencyInjection, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.DependencyInjection, and replace with new package Microsoft.Extensions.DependencyInjection 10.0.10",
+            "label": "Microsoft.Extensions.DependencyInjection 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.DependencyInjection",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "c72507b2-7e43-47d3-8832-1bdc0a45ca17",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Logging.Console, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.10",
+              "protected": "Microsoft.Extensions.Logging.Console, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.10"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+            "snippet": "Microsoft.Extensions.Logging.Console, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.10",
+            "protectedSnippet": "Microsoft.Extensions.Logging.Console, 8.0.0\n\nRecommendation:\n\nRemove Microsoft.Extensions.Logging.Console, and replace with new package Microsoft.Extensions.Logging.Console 10.0.10",
+            "label": "Microsoft.Extensions.Logging.Console 8.0.0",
+            "properties": {
+              "PackageId": "Microsoft.Extensions.Logging.Console",
+              "PackageVersion": "8.0.0",
+              "PackageNewVersion": "10.0.10",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "6e5c7dcb-4c8b-4da6-a223-b368bca9f9bd",
+          "ruleId": "NuGet.0002",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Newtonsoft.Json, 13.0.3\n\nRecommendation:\n\nRemove Newtonsoft.Json, and replace with new package Newtonsoft.Json 13.0.4",
+              "protected": "Newtonsoft.Json, 13.0.3\n\nRecommendation:\n\nRemove Newtonsoft.Json, and replace with new package Newtonsoft.Json 13.0.4"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+            "snippet": "Newtonsoft.Json, 13.0.3\n\nRecommendation:\n\nRemove Newtonsoft.Json, and replace with new package Newtonsoft.Json 13.0.4",
+            "protectedSnippet": "Newtonsoft.Json, 13.0.3\n\nRecommendation:\n\nRemove Newtonsoft.Json, and replace with new package Newtonsoft.Json 13.0.4",
+            "label": "Newtonsoft.Json 13.0.3",
+            "properties": {
+              "PackageId": "Newtonsoft.Json",
+              "PackageVersion": "13.0.3",
+              "PackageNewVersion": "13.0.4",
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "f90b12d5-cba8-4d8a-839c-5ee3a2c8d0b3",
+          "ruleId": "Project.0002",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        },
+        {
+          "incidentId": "f3eb41bf-5324-4b54-b0f5-1786d6628ba1",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 326,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "edc41f9d-409d-4bca-b1c6-1be7f7f10f9e",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 301,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "bb0f4adf-ae72-4e45-9ee3-e5ae16f34c7b",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 275,
+            "column": 16
+          }
+        },
+        {
+          "incidentId": "65f5085e-f50a-4e5b-b04c-9c24909eb061",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(table);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(table);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 184,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "a8836d49-39da-47ef-a227-29505dac90ed",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxElements\u0022);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxElements\u0022);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 128,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "20d8183f-5eec-4365-b99e-d184db3d3026",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 117,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "5e7bfc0e-55cb-4ec0-b974-c87404f406f8",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxAttributes\u0022);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxAttributes\u0022);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 106,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "9cfecac0-2348-432c-aa0d-8e0d96abfee0",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxMapper\u0022);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxMapper\u0022);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 95,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "a18eec2f-d8d7-4bd8-9b94-23d0e63c96d4",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxVariables\u0022);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 78,
+            "column": 12
+          }
+        },
+        {
+          "incidentId": "bb42fd6c-b9b0-406b-aed5-9ee6ac8e4b6e",
+          "ruleId": "Api.0001",
+          "description": "Breaking change: DynamicallyAccessedMembers annotation removed from trim-unsafe configuration APIs ",
+          "projectPath": "DTSXDataLoader.Core\\DTSXDataLoader.Core.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxMapper\u0022);",
+              "protected": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Core\\Service\\EtlDatabaseService.cs",
+            "snippet": "var tableName = _configuration.GetSection(\u0022ApplicationTables\u0022).GetValue\u003Cstring\u003E(\u0022DtsxMapper\u0022);",
+            "protectedSnippet": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "label": "M:Microsoft.Extensions.Configuration.ConfigurationBinder.GetValue\u0060\u00601(Microsoft.Extensions.Configuration.IConfiguration,System.String)",
+            "links": [
+              {
+                "title": "API documentation",
+                "url": "https://github.com/dotnet/docs/blob/main/docs/core/compatibility/extensions/10.0/dynamically-accessed-members-configuration.md",
+                "isCustom": false
+              }
+            ],
+            "line": 66,
+            "column": 12
+          }
+        }
+      ],
+      "features": []
+    },
+    {
+      "path": "DTSXDataLoader.Tests\\DTSXDataLoader.Tests.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 2,
+      "properties": {
+        "appName": "DTSXDataLoader.Tests",
+        "projectKind": "DotNetCoreApp",
+        "frameworks": [
+          "net8.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ],
+        "isSdkStyle": true,
+        "numberOfFiles": 13,
+        "numberOfCodeFiles": 11,
+        "linesTotal": 2035,
+        "linesOfCode": 260,
+        "totalApiScanned": 220,
+        "minLinesOfCodeToChange": 0,
+        "maxLinesOfCodeToChange": 0
+      },
+      "ruleInstances": [
+        {
+          "incidentId": "8309e5c9-6071-437e-bcbe-0aa6b05fb5bd",
+          "ruleId": "NuGet.0005",
+          "projectPath": "DTSXDataLoader.Tests\\DTSXDataLoader.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "xunit, 2.5.3\n\nRecommendation:\n\nThis package will only be updated for security issues. All future feature work has moved onto v3.\n\nGuide for migrating from xUnit.net v2 to v3: https://xunit.net/docs/getting-started/v3/migration\nRemove xunit, and replace with new package xunit, 2.9.3",
+              "protected": "xunit, 2.5.3\n\nRecommendation:\n\nThis package will only be updated for security issues. All future feature work has moved onto v3.\n\nGuide for migrating from xUnit.net v2 to v3: https://xunit.net/docs/getting-started/v3/migration\nRemove xunit, and replace with new package xunit, 2.9.3"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Tests\\DTSXDataLoader.Tests.csproj",
+            "snippet": "xunit, 2.5.3\n\nRecommendation:\n\nThis package will only be updated for security issues. All future feature work has moved onto v3.\n\nGuide for migrating from xUnit.net v2 to v3: https://xunit.net/docs/getting-started/v3/migration\nRemove xunit, and replace with new package xunit, 2.9.3",
+            "protectedSnippet": "xunit, 2.5.3\n\nRecommendation:\n\nThis package will only be updated for security issues. All future feature work has moved onto v3.\n\nGuide for migrating from xUnit.net v2 to v3: https://xunit.net/docs/getting-started/v3/migration\nRemove xunit, and replace with new package xunit, 2.9.3",
+            "label": "xunit 2.5.3",
+            "properties": {
+              "PackageId": "xunit",
+              "PackageVersion": "2.5.3",
+              "PackageNewVersion": null,
+              "PackageReplacements": null
+            }
+          }
+        },
+        {
+          "incidentId": "d7aa1c69-f1f6-43c7-8b45-ea9f10454e99",
+          "ruleId": "Project.0002",
+          "projectPath": "DTSXDataLoader.Tests\\DTSXDataLoader.Tests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current target framework: net8.0\nRecommended target framework: net10.0",
+              "protected": "Current target framework: net8.0\nRecommended target framework: net10.0"
+            },
+            "kind": "File",
+            "path": "DTSXDataLoader.Tests\\DTSXDataLoader.Tests.csproj",
+            "snippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "protectedSnippet": "Current target framework: net8.0\nRecommended target framework: net10.0",
+            "properties": {
+              "CurrentTargetFramework": "net8.0",
+              "RecommendedTargetFramework": "net10.0"
+            }
+          }
+        }
+      ],
+      "features": []
+    }
+  ],
+  "rules": {
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "isFeature": false,
+      "description": "NuGet package upgrade is recommended for selected target framework.\n\nStandard .NET packages are recommended to have versions matching version of .NET that project targets.\n\nSome other packages also are known to work better for selected target frameworks.",
+      "label": "NuGet package upgrade is recommended",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "Project.0002": {
+      "id": "Project.0002",
+      "isFeature": false,
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to corresponding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in modern .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0001": {
+      "id": "Api.0001",
+      "isFeature": false,
+      "description": "API is binary incompatible for selected .NET version: affects existing binaries, often requiring recompilation, because the API has changed in a way that prevents older binaries from loading or executing.",
+      "label": "Binary incompatible for selected .NET version",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Breaking changes in .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262679",
+          "isCustom": false
+        }
+      ]
+    },
+    "Api.0003": {
+      "id": "Api.0003",
+      "isFeature": false,
+      "description": "API has a behavioral change in selected .NET version: code and binaries may behave differently at runtime without needing recompilation, but the new behavior might be undesirable and require updates.",
+      "label": "Behavioral change in selected .NET version",
+      "severity": "Potential",
+      "effort": 1
+    },
+    "NuGet.0005": {
+      "id": "NuGet.0005",
+      "isFeature": false,
+      "description": "NuGet package is deprecated.\n\nGo to its documentation and if there is a guidance for replacement of functionality provided by this package.",
+      "label": "NuGet package is deprecated",
+      "severity": "Optional",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262531",
+          "isCustom": false
+        }
+      ]
+    }
+  }
+}
