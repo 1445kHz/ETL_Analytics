@@ -43,6 +43,15 @@
             anchorElement.remove();
             URL.revokeObjectURL(url);
         }
+
+        window.scrollDtsxLoaderLogToBottom = (elementId) => {
+            const el = document.getElementById(elementId);
+            if (!el) {
+                return;
+            }
+
+            el.scrollTop = el.scrollHeight;
+        }
     </script>
 </body>
 </html>

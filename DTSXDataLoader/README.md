@@ -71,7 +71,7 @@ To change the default location of SSIS packages, Database Connection, and Dtsx t
 
 ```
 
-### SQL Table Dependencies
+### DTSX SQL Table Dependencies
 
 Changing Names and Scheme is allowed, however you will need to update the appsettings.json configuration file too.
 
@@ -168,7 +168,7 @@ CREATE TABLE [dbo].[DTSX_Variables](
 
 CREATE VIEW DTSX_SQL_View
 AS
-BEGIN
+
 SELECT   m.[Id]
       ,m.[Description]
       ,m.[Package]
@@ -193,5 +193,5 @@ SELECT   m.[Id]
       ,m.[LoadDate]
   FROM [dbo].[DTSX_Mapper] m
   LEFT JOIN [dbo].[DTSX_Variables] v on v.Package=m.Package and CONCAT(v.[VariableNameSpace],'::',v.[VariableName]) = m.SqlStatement
-  END
+GO
 ```

@@ -15,6 +15,8 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddScoped<SqlDatabaseService>();
+builder.Services.AddScoped<DtsxLoaderSettingsService>();
+builder.Services.AddScoped<DtsxLoaderExecutionService>();
 
 var app = builder.Build();
 
