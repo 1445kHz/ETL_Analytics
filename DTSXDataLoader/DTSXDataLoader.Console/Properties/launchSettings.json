@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "DataReader": {
+      "commandName": "Project",
+      "commandLineArgs": "-p Y:\\GitHub\\SSISDeploy\\ -s -t",
+      "sqlDebugging": true
+    }
+  }
+}

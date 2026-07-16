@@ -170,6 +170,8 @@
     private string statusMessage = string.Empty;
     private DateTime? selectedImportDate;
     private IReadOnlyDictionary<string, decimal> runtimeDurations = new Dictionary<string, decimal>();
+    private IReadOnlyDictionary<string, List<(TimeSpan Start, TimeSpan End)>> conflictWindowsByJob =
+        new Dictionary<string, List<(TimeSpan Start, TimeSpan End)>>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -226,10 +228,19 @@
             runtimeDurations = await SqlDatabaseService
                 .GetRuntimeDurationsAsync(selectedImportDate);
 
+            var conflictingJobs = await SqlDatabaseService.GetCurrentConflictingJobsAsync();
+            conflictWindowsByJob = conflictingJobs
+                .GroupBy(c => c.JobName, StringComparer.OrdinalIgnoreCase)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(c => (c.StartTime, c.EndTime)).ToList(),
+                    StringComparer.OrdinalIgnoreCase);
+
             timelineItems = BuildTimeline(
                 jobs,
                 selectedImportDate.Value,
-                runtimeDurations);
+                runtimeDurations,
+                conflictWindowsByJob);
 
             Console.WriteLine(selectedTime.ToString("o"));
 
@@ -262,7 +273,11 @@
 
     }
 
-    private List<ScheduleTimelineItem> BuildTimeline(IEnumerable<JilJob> jobs, DateTime day, IReadOnlyDictionary<string, decimal> runtimeDurations)
+    private List<ScheduleTimelineItem> BuildTimeline(
+        IEnumerable<JilJob> jobs,
+        DateTime day,
+        IReadOnlyDictionary<string, decimal> runtimeDurations,
+        IReadOnlyDictionary<string, List<(TimeSpan Start, TimeSpan End)>> conflictWindowsByJob)
     {
         var items = new List<ScheduleTimelineItem>();
         overlapsList.Clear();
@@ -318,7 +333,9 @@
                 var other = items[j];
 
                 // Check overlap condition: Start < End && other.Start < End
-                if (current.Start < other.End && other.Start < current.End)
+                if (current.Start < other.End &&
+                    other.Start < current.End &&
+                    IsBackedByConflictingJobsOutput(current, other, conflictWindowsByJob))
                 {
                     current.IsOverlapping = true;
                     if (!current.OverlappingWith.Contains(other.JobName))
@@ -347,6 +364,34 @@
 
         return items.OrderBy(i => i.Start).ToList();
     }
+
+    private static bool IsBackedByConflictingJobsOutput(
+        ScheduleTimelineItem current,
+        ScheduleTimelineItem other,
+        IReadOnlyDictionary<string, List<(TimeSpan Start, TimeSpan End)>> conflictWindowsByJob)
+    {
+        if (!conflictWindowsByJob.TryGetValue(current.JobName, out var currentWindows) ||
+            !conflictWindowsByJob.TryGetValue(other.JobName, out var otherWindows))
+        {
+            return false;
+        }
+
+        foreach (var currentWindow in currentWindows.Where(w => IntervalsOverlap(current.Start, current.End, w.Start, w.End)))
+        {
+            foreach (var otherWindow in otherWindows.Where(w => IntervalsOverlap(other.Start, other.End, w.Start, w.End)))
+            {
+                if (IntervalsOverlap(currentWindow.Start, currentWindow.End, otherWindow.Start, otherWindow.End))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static bool IntervalsOverlap(TimeSpan startA, TimeSpan endA, TimeSpan startB, TimeSpan endB)
+        => startA < endB && startB < endA;
 
     private List<TimeSpan> ParseScheduledTimes(string? startTimes, string? startMins)
     {

@@ -161,9 +161,11 @@
             End-to-end visibility into your AutoSys job estate — import JIL definitions, map jobs to SSIS packages and database objects, and visualize scheduling conflicts before they become incidents.
         </p>
         <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-            <RadzenButton Text="Import &amp; Data" Icon="storage" Click="@(() => NavigationManager.NavigateTo("/settings"))"
+            <RadzenButton Text="Import &amp; Data" Icon="storage" Click="@(() => NavigationManager.NavigateTo("/import-and-data"))"
                           Style="background: #6366f1; color: white; border: none; border-radius: 8px; padding: 0.6rem 1.25rem; font-weight: 600; box-shadow: 0 4px 14px rgba(99,102,241,0.4);" />
             <RadzenButton Text="View Schedule" Icon="event" Click="@(() => NavigationManager.NavigateTo("/scheduling"))"
+                          Style="background: rgba(255,255,255,0.12); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 0.6rem 1.25rem; font-weight: 600;" />
+            <RadzenButton Text="DTSX SQL View" Icon="table_view" Click="@(() => NavigationManager.NavigateTo("/dtsx-sql-view"))"
                           Style="background: rgba(255,255,255,0.12); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 0.6rem 1.25rem; font-weight: 600;" />
         </div>
     </div>
@@ -177,7 +179,7 @@
             <span class="rzi" style="color: #7c3aed;">work</span>
         </div>
         <div style="font-size: 1.8rem; font-weight: 800; color: #0f172a; line-height: 1;">@jilJobCount.ToString("N0")</div>
-        <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.35rem; font-weight: 500;">JIL Jobs Imported</div>
+        <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.35rem; font-weight: 500;">Jobs in Latest Import</div>
         @if (jilImportCount > 0)
         {
             <div class="chip" style="margin-top: 0.6rem;">@jilImportCount import batch@(jilImportCount == 1 ? "" : "es")</div>
@@ -232,6 +234,14 @@
         }
     </div>
 
+    <div class="stat-card">
+        <div class="stat-icon" style="background: #e0f2fe;">
+            <span class="rzi" style="color: #0369a1;">dataset</span>
+        </div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: #0f172a; line-height: 1;">@dtsxSqlRowCount.ToString("N0")</div>
+        <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.35rem; font-weight: 500;">DTSX SQL View Rows</div>
+    </div>
+
 </div>
 
 <!-- ── Feature Cards + Pipeline ── -->
@@ -245,7 +255,7 @@
             </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
 
-                <div @onclick="@(() => NavigationManager.NavigateTo("/settings"))" class="feature-card" style="padding: 1.25rem;">
+                <div @onclick="@(() => NavigationManager.NavigateTo("/import-and-data"))" class="feature-card" style="padding: 1.25rem;">
                     <div class="feature-icon" style="background: #f5f3ff; width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 0.875rem;">
                         <span class="rzi" style="color: #7c3aed;">upload_file</span>
                     </div>
@@ -253,7 +263,7 @@
                     <div style="color: #64748b; font-size: 0.82rem; line-height: 1.5;">Parse and persist AutoSys JIL job definitions into SQL Server from file or sample data.</div>
                 </div>
 
-                <div @onclick="@(() => NavigationManager.NavigateTo("/settings"))" class="feature-card" style="padding: 1.25rem;">
+                <div @onclick="@(() => NavigationManager.NavigateTo("/import-and-data"))" class="feature-card" style="padding: 1.25rem;">
                     <div class="feature-icon" style="background: #eff6ff; width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 0.875rem;">
                         <span class="rzi" style="color: #1d4ed8;">link</span>
                     </div>
@@ -261,7 +271,7 @@
                     <div style="color: #64748b; font-size: 0.82rem; line-height: 1.5;">Associate AutoSys jobs with SSIS packages via CSV import or manual grid entry.</div>
                 </div>
 
-                <div @onclick="@(() => NavigationManager.NavigateTo("/settings"))" class="feature-card" style="padding: 1.25rem;">
+                <div @onclick="@(() => NavigationManager.NavigateTo("/import-and-data"))" class="feature-card" style="padding: 1.25rem;">
                     <div class="feature-icon" style="background: #f0fdf4; width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 0.875rem;">
                         <span class="rzi" style="color: #15803d;">table_chart</span>
                     </div>
@@ -275,6 +285,22 @@
                     </div>
                     <div style="font-weight: 700; color: #1e293b; margin-bottom: 0.3rem; font-size: 0.95rem;">Schedule Visualizer</div>
                     <div style="color: #64748b; font-size: 0.82rem; line-height: 1.5;">24-hour timeline view of job runs with overlap detection and runtime duration overlays.</div>
+                </div>
+
+                <div @onclick="@(() => NavigationManager.NavigateTo("/dtsx-loader-settings"))" class="feature-card" style="padding: 1.25rem;">
+                    <div class="feature-icon" style="background: #f5f3ff; width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 0.875rem;">
+                        <span class="rzi" style="color: #7c3aed;">settings</span>
+                    </div>
+                    <div style="font-weight: 700; color: #1e293b; margin-bottom: 0.3rem; font-size: 0.95rem;">DTSX Loader</div>
+                    <div style="color: #64748b; font-size: 0.82rem; line-height: 1.5;">Configure and execute DTSXDataLoader directly from this app with live output.</div>
+                </div>
+
+                <div @onclick="@(() => NavigationManager.NavigateTo("/dtsx-sql-view"))" class="feature-card" style="padding: 1.25rem;">
+                    <div class="feature-icon" style="background: #ecfeff; width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 0.875rem;">
+                        <span class="rzi" style="color: #0e7490;">table_view</span>
+                    </div>
+                    <div style="font-weight: 700; color: #1e293b; margin-bottom: 0.3rem; font-size: 0.95rem;">DTSX SQL View</div>
+                    <div style="color: #64748b; font-size: 0.82rem; line-height: 1.5;">Review source and resolved SQL from <code>dbo.DTSX_SQL_View</code> in a searchable grid.</div>
                 </div>
 
             </div>
@@ -312,6 +338,13 @@
             <div class="pipeline-step">
                 <div class="step-num">4</div>
                 <div>
+                    <div style="font-weight: 600; color: #1e293b; font-size: 0.88rem;">Run DTSX Loader</div>
+                    <div style="color: #64748b; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">Set loader options, execute DTSXDataLoader, and watch log output in real time.</div>
+                </div>
+            </div>
+            <div class="pipeline-step">
+                <div class="step-num">5</div>
+                <div>
                     <div style="font-weight: 600; color: #1e293b; font-size: 0.88rem;">Analyze the Schedule</div>
                     <div style="color: #64748b; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">Use the scheduling view to spot job overlaps and plan capacity before go-live.</div>
                 </div>
@@ -335,8 +368,8 @@
     </div>
     <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
         <div style="font-size: 0.82rem; color: #64748b;">
-            <span style="font-weight: 600; color: #1e293b;">Tables: </span>
-            AutoSysJilJobs · AutoSysJobToPackage · AutoSysPackageToObject · AutoSysRuntimeJobs
+            <span style="font-weight: 600; color: #1e293b;">Core Objects: </span>
+            AutoSysJilJobs · AutoSysJobToPackage · AutoSysPackageToObject · AutoSysRuntimeJobs · DTSX_SQL_View
         </div>
     </div>
 </RadzenCard>
@@ -348,6 +381,7 @@
     private int packageToObjectCount;
     private int scheduledJobCount;
     private int currentConflictCount;
+    private int dtsxSqlRowCount;
     private bool isDbOnline;
     private string dbError = string.Empty;
 
@@ -392,6 +426,16 @@
             catch
             {
                 currentConflictCount = 0;
+            }
+
+            try
+            {
+                var dtsxRows = await SqlDatabaseService.GetDtsxSqlViewRowsAsync();
+                dtsxSqlRowCount = dtsxRows.Count;
+            }
+            catch
+            {
+                dtsxSqlRowCount = 0;
             }
 
             isDbOnline = true;

@@ -128,8 +128,35 @@ else if (rows is not null)
             <RadzenButton Text="Load Conflicting Jobs" Icon="warning" ButtonStyle="ButtonStyle.Warning"
                           Click="@LoadConflictingJobsAsync" IsBusy="@isLoadingConflictingJobs" />
         </div>
+        <div>
+            <RadzenSplitButton Icon="visibility" Text="Columns" Click="@OnConflictingJobsColumnButtonClick" ButtonStyle="ButtonStyle.Light">
+                <ChildContent>
+                    <RadzenSplitButtonItem Text="Show All" Value="show-all" />
+                    <RadzenSplitButtonItem Text="Hide All" Value="hide-all" />
+                </ChildContent>
+            </RadzenSplitButton>
+        </div>
     </div>
 </RadzenCard>
+
+@if (showConflictingJobsColumnPickerDialog)
+{
+    <RadzenCard Style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; background: #ffffff; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+            <RadzenText TextStyle="TextStyle.Subtitle2" Style="color: #475569; font-weight: 600;">Select Current Conflicting Jobs Columns</RadzenText>
+            <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Size="ButtonSize.Small" Click="@(() => showConflictingJobsColumnPickerDialog = false)" />
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem;">
+            @foreach (var column in conflictingJobsColumnVisibility)
+            {
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <RadzenCheckBox @bind-Value="conflictingJobsColumnVisibility[column.Key]" Name="@column.Key" />
+                    <RadzenLabel Text="@column.Key" Component="@column.Key" Style="margin: 0; cursor: pointer;" />
+                </div>
+            }
+        </div>
+    </RadzenCard>
+}
 
 @if (!string.IsNullOrWhiteSpace(conflictingJobsStatusMessage))
 {
@@ -149,24 +176,24 @@ else if (conflictingJobs is not null && conflictingJobs.Any())
     <RadzenDataGrid Data="@conflictingJobs" TItem="ConflictingJob" AllowFiltering="true" AllowSorting="true" AllowPaging="true"
                     PageSize="15" AllowColumnResize="true" Style="border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 2rem;">
         <Columns>
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="JobName" Title="Job Name" Width="200px" />
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="PackageName" Title="Package" Width="180px" />
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="DayName" Title="Day" Width="100px" />
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="StartTime" Title="Start Time" Width="120px">
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="JobName" Title="Job Name" Width="200px" Visible="@conflictingJobsColumnVisibility["Job Name"]" />
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="PackageName" Title="Package" Width="180px" Visible="@conflictingJobsColumnVisibility["Package"]" />
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="DayName" Title="Day" Width="100px" Visible="@conflictingJobsColumnVisibility["Day"]" />
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="StartTime" Title="Start Time" Width="120px" Visible="@conflictingJobsColumnVisibility["Start Time"]">
                 <Template Context="item">@item.StartTime.ToString(@"hh\:mm")</Template>
             </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="EndTime" Title="End Time" Width="120px">
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="EndTime" Title="End Time" Width="120px" Visible="@conflictingJobsColumnVisibility["End Time"]">
                 <Template Context="item">@item.EndTime.ToString(@"hh\:mm")</Template>
             </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="AvgRunTimeMinutes" Title="Avg Runtime (min)" Width="140px">
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="AvgRunTimeMinutes" Title="Avg Runtime (min)" Width="140px" Visible="@conflictingJobsColumnVisibility["Avg Runtime (min)"]">
                 <Template Context="item">@(item.AvgRunTimeMinutes?.ToString("0.##") ?? "N/A")</Template>
             </RadzenDataGridColumn>
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="DatabaseServer" Title="DB Server" Width="160px" />
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="Database" Title="Database" Width="140px" />
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="Schema" Title="Schema" Width="120px" />
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="ObjectName" Title="Object" Width="200px" />
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="ObjectType" Title="Type" Width="120px" />
-            <RadzenDataGridColumn TItem="ConflictingJob" Property="SharedPackageCount" Title="Shared Count" Width="130px">
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="DatabaseServer" Title="DB Server" Width="160px" Visible="@conflictingJobsColumnVisibility["DB Server"]" />
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="Database" Title="Database" Width="140px" Visible="@conflictingJobsColumnVisibility["Database"]" />
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="Schema" Title="Schema" Width="120px" Visible="@conflictingJobsColumnVisibility["Schema"]" />
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="ObjectName" Title="Object" Width="200px" Visible="@conflictingJobsColumnVisibility["Object"]" />
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="ObjectType" Title="Type" Width="120px" Visible="@conflictingJobsColumnVisibility["Type"]" />
+            <RadzenDataGridColumn TItem="ConflictingJob" Property="SharedPackageCount" Title="Shared Count" Width="130px" Visible="@conflictingJobsColumnVisibility["Shared Count"]">
                 <Template Context="item">
                     @if (item.SharedPackageCount > 1)
                     {
@@ -195,6 +222,7 @@ else if (conflictingJobs is not null && conflictingJobs.Any())
     private IReadOnlyList<ConflictingJob>? conflictingJobs;
     private bool isLoadingConflictingJobs;
     private string conflictingJobsStatusMessage = string.Empty;
+    private bool showConflictingJobsColumnPickerDialog = false;
 
     private Dictionary<string, bool> columnVisibility = new()
     {
@@ -207,6 +235,22 @@ else if (conflictingJobs is not null && conflictingJobs.Any())
         ["Imported At"] = true,
         ["# Packages"] = true,
         ["Conflict"] = true
+    };
+
+    private Dictionary<string, bool> conflictingJobsColumnVisibility = new()
+    {
+        ["Job Name"] = true,
+        ["Package"] = true,
+        ["Day"] = true,
+        ["Start Time"] = true,
+        ["End Time"] = true,
+        ["Avg Runtime (min)"] = true,
+        ["DB Server"] = true,
+        ["Database"] = true,
+        ["Schema"] = true,
+        ["Object"] = true,
+        ["Type"] = true,
+        ["Shared Count"] = true
     };
 
     private IReadOnlyList<DataConflictRow> displayRows =>
@@ -262,6 +306,46 @@ else if (conflictingJobs is not null && conflictingJobs.Any())
         foreach (var key in columnVisibility.Keys.ToList())
         {
             columnVisibility[key] = false;
+        }
+    }
+
+    private void ShowConflictingJobsColumnPicker()
+    {
+        showConflictingJobsColumnPickerDialog = !showConflictingJobsColumnPickerDialog;
+    }
+
+    private void OnConflictingJobsColumnButtonClick(RadzenSplitButtonItem item)
+    {
+        if (item?.Value is string value)
+        {
+            if (value == "show-all")
+            {
+                ShowAllConflictingJobsColumns();
+            }
+            else if (value == "hide-all")
+            {
+                HideAllConflictingJobsColumns();
+            }
+        }
+        else
+        {
+            ShowConflictingJobsColumnPicker();
+        }
+    }
+
+    private void ShowAllConflictingJobsColumns()
+    {
+        foreach (var key in conflictingJobsColumnVisibility.Keys.ToList())
+        {
+            conflictingJobsColumnVisibility[key] = true;
+        }
+    }
+
+    private void HideAllConflictingJobsColumns()
+    {
+        foreach (var key in conflictingJobsColumnVisibility.Keys.ToList())
+        {
+            conflictingJobsColumnVisibility[key] = false;
         }
     }
 

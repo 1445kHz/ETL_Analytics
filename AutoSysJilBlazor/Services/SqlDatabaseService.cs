@@ -53,7 +53,10 @@ public class SqlDatabaseService
         return await connection.ExecuteAsync(sql, new { TableName = tableName });
     }
 
-    public async Task<int> InsertJobsAsync(IEnumerable<JilJob> jobs, string tableName = "dbo.AutoSysJilJobs")
+    public async Task<int> InsertJobsAsync(
+        IEnumerable<JilJob> jobs,
+        string tableName = "dbo.AutoSysJilJobs",
+        DateTime? importedAtUtc = null)
     {
         const string sql = @"
             INSERT INTO dbo.AutoSysJilJobs (
@@ -68,7 +71,7 @@ public class SqlDatabaseService
             );
         ";
 
-        var importedAt = DateTime.UtcNow;
+        var importedAt = importedAtUtc ?? DateTime.UtcNow;
         var rows = jobs.Select(j => new
         {
             j.JobName,
@@ -506,6 +509,33 @@ public class SqlDatabaseService
         var rows = await connection.QueryAsync<ConflictingJob>(
             "dbo.GetCurrentConflictingJobs",
             commandType: System.Data.CommandType.StoredProcedure);
+        return rows.ToList();
+    }
+
+    public async Task<IReadOnlyList<DtsxSqlViewRow>> GetDtsxSqlViewRowsAsync()
+    {
+        const string sql = @"
+            SELECT
+                [Id],
+                [Description],
+                [Package],
+                [RefId],
+                [Pipeline],
+                [SQL Source] AS SqlSource,
+                [Resolved SQL] AS ResolvedSql,
+                [ConnectionString],
+                [ConnectionName],
+                [ConnectionDtsId],
+                [ConnectionType],
+                [ConnectionRefId],
+                [Name],
+                [ComponentType],
+                [LoadDate]
+            FROM [dbo].[DTSX_SQL_View]
+            ORDER BY [LoadDate] DESC;";
+
+        await using var connection = new SqlConnection(_connectionString);
+        var rows = await connection.QueryAsync<DtsxSqlViewRow>(sql);
         return rows.ToList();
     }
 }
