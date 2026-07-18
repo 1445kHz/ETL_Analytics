@@ -538,6 +538,261 @@ public class SqlDatabaseService
         var rows = await connection.QueryAsync<DtsxSqlViewRow>(sql);
         return rows.ToList();
     }
+
+    // ─── Business Rules ──────────────────────────────────────────────────────
+
+    public async Task CreateBusinessRuleTablesIfNotExistsAsync()
+    {
+        const string sql = @"
+            IF OBJECT_ID('dbo.BusinessRules', 'U') IS NULL
+            BEGIN
+                CREATE TABLE dbo.BusinessRules (
+                    Id INT IDENTITY(1,1) PRIMARY KEY,
+                    Name NVARCHAR(255) NOT NULL,
+                    Description NVARCHAR(MAX) NULL,
+                    RuleType NVARCHAR(50) NOT NULL,
+                    Code NVARCHAR(MAX) NOT NULL,
+                    Version INT NOT NULL DEFAULT 1,
+                    IsActive BIT NOT NULL DEFAULT 1,
+                    CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+                    UpdatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+                );
+            END;
+
+            IF OBJECT_ID('dbo.BusinessRuleHistory', 'U') IS NULL
+            BEGIN
+                CREATE TABLE dbo.BusinessRuleHistory (
+                    HistoryId INT IDENTITY(1,1) PRIMARY KEY,
+                    RuleId INT NOT NULL,
+                    Name NVARCHAR(255) NOT NULL,
+                    Description NVARCHAR(MAX) NULL,
+                    RuleType NVARCHAR(50) NOT NULL,
+                    Code NVARCHAR(MAX) NOT NULL,
+                    Version INT NOT NULL,
+                    ArchivedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+                    CONSTRAINT FK_BusinessRuleHistory_RuleId FOREIGN KEY (RuleId) REFERENCES dbo.BusinessRules(Id) ON DELETE CASCADE
+                );
+            END;
+
+            IF OBJECT_ID('dbo.BusinessRuleBundles', 'U') IS NULL
+            BEGIN
+                CREATE TABLE dbo.BusinessRuleBundles (
+                    Id INT IDENTITY(1,1) PRIMARY KEY,
+                    Name NVARCHAR(255) NOT NULL,
+                    Description NVARCHAR(MAX) NULL,
+                    IsActive BIT NOT NULL DEFAULT 1,
+                    CreatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+                    UpdatedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+                );
+            END;
+
+            IF OBJECT_ID('dbo.BusinessRuleBundleItems', 'U') IS NULL
+            BEGIN
+                CREATE TABLE dbo.BusinessRuleBundleItems (
+                    Id INT IDENTITY(1,1) PRIMARY KEY,
+                    BundleId INT NOT NULL,
+                    RuleId INT NOT NULL,
+                    SequenceOrder INT NOT NULL,
+                    CONSTRAINT FK_BundleItems_Bundle FOREIGN KEY (BundleId) REFERENCES dbo.BusinessRuleBundles(Id) ON DELETE CASCADE,
+                    CONSTRAINT FK_BundleItems_Rule FOREIGN KEY (RuleId) REFERENCES dbo.BusinessRules(Id)
+                );
+            END;
+        ";
+        await using var connection = new SqlConnection(_connectionString);
+        await connection.ExecuteAsync(sql);
+
+        // Seed example rules if table is empty
+        var count = await connection.ExecuteScalarAsync<int>("SELECT COUNT(*) FROM dbo.BusinessRules;");
+        if (count == 0)
+        {
+            const string seedSql = @"
+                INSERT INTO dbo.BusinessRules (Name, Description, RuleType, Code, Version, IsActive, CreatedAt, UpdatedAt)
+                VALUES 
+                ('Unmapped Jobs Audit', 'Finds all AutoSys jobs that do not have a corresponding SSIS package mapping.', 'TSQL', 
+                 'SELECT j.JobName, j.Application, j.Machine \nFROM dbo.AutoSysJilJobs j \nLEFT JOIN dbo.AutoSysJobToPackage m ON j.JobName = m.JobName \nWHERE m.PackageName IS NULL \nORDER BY j.JobName', 1, 1, SYSUTCDATETIME(), SYSUTCDATETIME()),
+                
+                ('Naming Convention Validator', 'A C# script to demonstrate using the application context (Jobs) to validate data.', 'CSharp', 
+                 '// Access the application context directly\nLog($""Processing {Jobs.Count} jobs from the latest import..."");\n\nvar violations = Jobs.Where(j => !j.JobName.StartsWith(""JOB_"")).ToList();\n\nreturn new { \n    TotalJobs = Jobs.Count, \n    InvalidCount = violations.Count, \n    ViolationList = violations.Select(v => v.JobName).Take(10),\n    Status = violations.Any() ? ""Warning"" : ""Passed""\n};', 1, 1, SYSUTCDATETIME(), SYSUTCDATETIME());
+            ";
+            await connection.ExecuteAsync(seedSql);
+        }
+    }
+
+    public async Task<IReadOnlyList<BusinessRule>> GetBusinessRulesAsync()
+    {
+        const string sql = "SELECT * FROM dbo.BusinessRules WHERE IsActive = 1 ORDER BY Name;";
+        await using var connection = new SqlConnection(_connectionString);
+        var rows = await connection.QueryAsync<BusinessRule>(sql);
+        return rows.ToList();
+    }
+
+    public async Task<BusinessRule?> GetBusinessRuleByIdAsync(int id)
+    {
+        const string sql = "SELECT * FROM dbo.BusinessRules WHERE Id = @Id;";
+        await using var connection = new SqlConnection(_connectionString);
+        return await connection.QueryFirstOrDefaultAsync<BusinessRule>(sql, new { Id = id });
+    }
+
+    public async Task<int> InsertBusinessRuleAsync(BusinessRule rule)
+    {
+        const string sql = @"
+            INSERT INTO dbo.BusinessRules (Name, Description, RuleType, Code, Version, IsActive, CreatedAt, UpdatedAt)
+            VALUES (@Name, @Description, @RuleType, @Code, 1, 1, SYSUTCDATETIME(), SYSUTCDATETIME());
+            SELECT CAST(SCOPE_IDENTITY() AS INT);
+        ";
+        await using var connection = new SqlConnection(_connectionString);
+        return await connection.ExecuteScalarAsync<int>(sql, rule);
+    }
+
+    public async Task UpdateBusinessRuleAsync(BusinessRule rule)
+    {
+        const string archiveSql = @"
+            INSERT INTO dbo.BusinessRuleHistory (RuleId, Name, Description, RuleType, Code, Version, ArchivedAt)
+            SELECT Id, Name, Description, RuleType, Code, Version, SYSUTCDATETIME()
+            FROM dbo.BusinessRules
+            WHERE Id = @Id;
+        ";
+
+        const string updateSql = @"
+            UPDATE dbo.BusinessRules
+            SET Name = @Name,
+                Description = @Description,
+                RuleType = @RuleType,
+                Code = @Code,
+                Version = Version + 1,
+                UpdatedAt = SYSUTCDATETIME()
+            WHERE Id = @Id;
+        ";
+
+        await using var connection = new SqlConnection(_connectionString);
+        await connection.OpenAsync();
+        using var transaction = connection.BeginTransaction();
+        try
+        {
+            await connection.ExecuteAsync(archiveSql, new { Id = rule.Id }, transaction);
+            await connection.ExecuteAsync(updateSql, rule, transaction);
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+
+    public async Task DeleteBusinessRuleAsync(int id)
+    {
+        const string sql = "UPDATE dbo.BusinessRules SET IsActive = 0 WHERE Id = @Id;";
+        await using var connection = new SqlConnection(_connectionString);
+        await connection.ExecuteAsync(sql, new { Id = id });
+    }
+
+    public async Task<IReadOnlyList<BusinessRuleHistory>> GetBusinessRuleHistoryAsync(int ruleId)
+    {
+        const string sql = "SELECT * FROM dbo.BusinessRuleHistory WHERE RuleId = @RuleId ORDER BY Version DESC;";
+        await using var connection = new SqlConnection(_connectionString);
+        var rows = await connection.QueryAsync<BusinessRuleHistory>(sql, new { RuleId = ruleId });
+        return rows.ToList();
+    }
+
+    // ─── Bundles ─────────────────────────────────────────────────────────────
+
+    public async Task<IReadOnlyList<BusinessRuleBundle>> GetBusinessRuleBundlesAsync()
+    {
+        const string sql = "SELECT * FROM dbo.BusinessRuleBundles WHERE IsActive = 1 ORDER BY Name;";
+        await using var connection = new SqlConnection(_connectionString);
+        var rows = await connection.QueryAsync<BusinessRuleBundle>(sql);
+        return rows.ToList();
+    }
+
+    public async Task<BusinessRuleBundle?> GetBusinessRuleBundleByIdAsync(int id)
+    {
+        const string sql = "SELECT * FROM dbo.BusinessRuleBundles WHERE Id = @Id;";
+        const string itemsSql = @"
+            SELECT i.*, r.Name as RuleName, r.RuleType 
+            FROM dbo.BusinessRuleBundleItems i
+            JOIN dbo.BusinessRules r ON i.RuleId = r.Id
+            WHERE i.BundleId = @BundleId
+            ORDER BY i.SequenceOrder;
+        ";
+        await using var connection = new SqlConnection(_connectionString);
+        var bundle = await connection.QueryFirstOrDefaultAsync<BusinessRuleBundle>(sql, new { Id = id });
+        if (bundle != null)
+        {
+            var items = await connection.QueryAsync<BusinessRuleBundleItem>(itemsSql, new { BundleId = id });
+            bundle.Items = items.ToList();
+        }
+        return bundle;
+    }
+
+    public async Task<int> InsertBusinessRuleBundleAsync(BusinessRuleBundle bundle)
+    {
+        const string sql = @"
+            INSERT INTO dbo.BusinessRuleBundles (Name, Description, IsActive, CreatedAt, UpdatedAt)
+            VALUES (@Name, @Description, 1, SYSUTCDATETIME(), SYSUTCDATETIME());
+            SELECT CAST(SCOPE_IDENTITY() AS INT);
+        ";
+        await using var connection = new SqlConnection(_connectionString);
+        await connection.OpenAsync();
+        using var transaction = connection.BeginTransaction();
+        try
+        {
+            var id = await connection.ExecuteScalarAsync<int>(sql, bundle, transaction);
+            foreach (var item in bundle.Items)
+            {
+                item.BundleId = id;
+                await connection.ExecuteAsync(@"
+                    INSERT INTO dbo.BusinessRuleBundleItems (BundleId, RuleId, SequenceOrder)
+                    VALUES (@BundleId, @RuleId, @SequenceOrder);
+                ", item, transaction);
+            }
+            await transaction.CommitAsync();
+            return id;
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+
+    public async Task UpdateBusinessRuleBundleAsync(BusinessRuleBundle bundle)
+    {
+        const string sql = @"
+            UPDATE dbo.BusinessRuleBundles
+            SET Name = @Name, Description = @Description, UpdatedAt = SYSUTCDATETIME()
+            WHERE Id = @Id;
+        ";
+        await using var connection = new SqlConnection(_connectionString);
+        await connection.OpenAsync();
+        using var transaction = connection.BeginTransaction();
+        try
+        {
+            await connection.ExecuteAsync(sql, bundle, transaction);
+            await connection.ExecuteAsync("DELETE FROM dbo.BusinessRuleBundleItems WHERE BundleId = @Id;", new { Id = bundle.Id }, transaction);
+            foreach (var item in bundle.Items)
+            {
+                item.BundleId = bundle.Id;
+                await connection.ExecuteAsync(@"
+                    INSERT INTO dbo.BusinessRuleBundleItems (BundleId, RuleId, SequenceOrder)
+                    VALUES (@BundleId, @RuleId, @SequenceOrder);
+                ", item, transaction);
+            }
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+
+    public async Task DeleteBusinessRuleBundleAsync(int id)
+    {
+        const string sql = "UPDATE dbo.BusinessRuleBundles SET IsActive = 0 WHERE Id = @Id;";
+        await using var connection = new SqlConnection(_connectionString);
+        await connection.ExecuteAsync(sql, new { Id = id });
+    }
 }
 
 

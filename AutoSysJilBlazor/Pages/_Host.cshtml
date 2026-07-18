@@ -45,12 +45,12 @@
         }
 
         window.scrollDtsxLoaderLogToBottom = (elementId) => {
-            const el = document.getElementById(elementId);
-            if (!el) {
-                return;
-            }
-
-            el.scrollTop = el.scrollHeight;
+            setTimeout(() => {
+                const el = document.getElementById(elementId);
+                if (el) {
+                    el.scrollTop = el.scrollHeight;
+                }
+            }, 10);
         }
     </script>
 </body>

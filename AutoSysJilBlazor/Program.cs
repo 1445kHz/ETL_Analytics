@@ -17,6 +17,7 @@ builder.Services.AddScoped<ContextMenuService>();
 builder.Services.AddScoped<SqlDatabaseService>();
 builder.Services.AddScoped<DtsxLoaderSettingsService>();
 builder.Services.AddScoped<DtsxLoaderExecutionService>();
+builder.Services.AddScoped<BusinessRuleEngine>();
 
 var app = builder.Build();
 
@@ -36,5 +37,12 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+// Initialize database tables
+using (var scope = app.Services.CreateScope())
+{
+    var dbService = scope.ServiceProvider.GetRequiredService<SqlDatabaseService>();
+    await dbService.CreateBusinessRuleTablesIfNotExistsAsync();
+}
 
 app.Run();
