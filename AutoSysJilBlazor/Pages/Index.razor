@@ -242,6 +242,30 @@
         <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.35rem; font-weight: 500;">DTSX SQL View Rows</div>
     </div>
 
+    <div class="stat-card">
+        <div class="stat-icon" style="background: #fdf2f8;">
+            <span class="rzi" style="color: #db2777;">script</span>
+        </div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: #0f172a; line-height: 1;">@businessRuleCount.ToString("N0")</div>
+        <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.35rem; font-weight: 500;">Active Business Rules</div>
+        @if (businessRuleCount > 0)
+        {
+            <div class="chip" style="margin-top: 0.6rem; background: #fdf2f8; color: #db2777;">dynamic</div>
+        }
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon" style="background: #f0f9ff;">
+            <span class="rzi" style="color: #0369a1;">account_tree</span>
+        </div>
+        <div style="font-size: 1.8rem; font-weight: 800; color: #0f172a; line-height: 1;">@bundleCount.ToString("N0")</div>
+        <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.35rem; font-weight: 500;">Rule Bundles</div>
+        @if (bundleCount > 0)
+        {
+            <div class="chip" style="margin-top: 0.6rem; background: #e0f2fe; color: #0369a1;">sequenced</div>
+        }
+    </div>
+
 </div>
 
 <!-- ── Feature Cards + Pipeline ── -->
@@ -303,6 +327,22 @@
                     <div style="color: #64748b; font-size: 0.82rem; line-height: 1.5;">Review source and resolved SQL from <code>dbo.DTSX_SQL_View</code> in a searchable grid.</div>
                 </div>
 
+                <div @onclick="@(() => NavigationManager.NavigateTo("/business-rules"))" class="feature-card" style="padding: 1.25rem;">
+                    <div class="feature-icon" style="background: #fff1f2; width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 0.875rem;">
+                        <span class="rzi" style="color: #e11d48;">script</span>
+                    </div>
+                    <div style="font-weight: 700; color: #1e293b; margin-bottom: 0.3rem; font-size: 0.95rem;">Business Rules</div>
+                    <div style="color: #64748b; font-size: 0.82rem; line-height: 1.5;">Manage and execute dynamic TSQL and C# business logic with versioning and watch logs.</div>
+                </div>
+ 
+                <div @onclick="@(() => NavigationManager.NavigateTo("/business-rule-bundles"))" class="feature-card" style="padding: 1.25rem;">
+                    <div class="feature-icon" style="background: #f0f9ff; width: 44px; height: 44px; font-size: 1.2rem; margin-bottom: 0.875rem;">
+                        <span class="rzi" style="color: #0369a1;">account_tree</span>
+                    </div>
+                    <div style="font-weight: 700; color: #1e293b; margin-bottom: 0.3rem; font-size: 0.95rem;">Rule Bundles</div>
+                    <div style="color: #64748b; font-size: 0.82rem; line-height: 1.5;">Sequence multiple rules into complex workflows with stateful data piping between steps.</div>
+                </div>
+
             </div>
         </RadzenCard>
     </RadzenColumn>
@@ -349,6 +389,13 @@
                     <div style="color: #64748b; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">Use the scheduling view to spot job overlaps and plan capacity before go-live.</div>
                 </div>
             </div>
+            <div class="pipeline-step">
+                <div class="step-num">6</div>
+                <div>
+                    <div style="font-weight: 600; color: #1e293b; font-size: 0.88rem;">Automate with Bundles</div>
+                    <div style="color: #64748b; font-size: 0.8rem; line-height: 1.5; margin-top: 2px;">Sequence audits and validation rules into automated pipeline checks.</div>
+                </div>
+            </div>
 
         </RadzenCard>
     </RadzenColumn>
@@ -369,7 +416,7 @@
     <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
         <div style="font-size: 0.82rem; color: #64748b;">
             <span style="font-weight: 600; color: #1e293b;">Core Objects: </span>
-            AutoSysJilJobs · AutoSysJobToPackage · AutoSysPackageToObject · AutoSysRuntimeJobs · DTSX_SQL_View
+            AutoSysJilJobs · AutoSysJobToPackage · AutoSysPackageToObject · AutoSysRuntimeJobs · DTSX_SQL_View · BusinessRules · BusinessRuleBundles
         </div>
     </div>
 </RadzenCard>
@@ -382,6 +429,8 @@
     private int scheduledJobCount;
     private int currentConflictCount;
     private int dtsxSqlRowCount;
+    private int businessRuleCount;
+    private int bundleCount;
     private bool isDbOnline;
     private string dbError = string.Empty;
 
@@ -438,6 +487,26 @@
                 dtsxSqlRowCount = 0;
             }
 
+            try
+            {
+                var businessRules = await SqlDatabaseService.GetBusinessRulesAsync();
+                businessRuleCount = businessRules.Count;
+            }
+            catch
+            {
+                businessRuleCount = 0;
+            }
+
+            try
+            {
+                var bundles = await SqlDatabaseService.GetBusinessRuleBundlesAsync();
+                bundleCount = bundles.Count;
+            }
+            catch
+            {
+                bundleCount = 0;
+            }
+ 
             isDbOnline = true;
         }
         catch (Exception ex)

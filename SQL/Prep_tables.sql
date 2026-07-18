@@ -1131,3 +1131,15 @@ BEGIN
     );
 END;
 GO
+
+
+CREATE TABLE [dbo].[NamingCompliance](
+	[JobName] [varchar](255) NOT NULL,
+	[Message] [varchar](max) NULL,
+	[DetectedAt] [datetime2](7) NOT NULL,
+	[ImportedAt] [datetime2](7) NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[NamingCompliance] ADD  DEFAULT (sysutcdatetime()) FOR [ImportedAt]
+GO
