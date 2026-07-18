@@ -36,6 +36,7 @@ C# scripts have direct access to the following global variables:
 | `JobToPackageMappings` | `List<AutoSysJobToPackage>` | Current job-to-package mapping data. |
 | `PreviousResult` | `object?` | The return value from the previous step in a bundle. |
 | `StepResults` | `Dictionary<int, object?>` | All results from earlier steps, keyed by SequenceOrder. |
+| `RunBundle(name)`| `Func<string, Task<object?>>` | Triggers another bundle by name. Returns its final result. |
 | `Log(string)` | `Action<string>` | A helper to write to the execution watch window. |
 
 ---
@@ -119,6 +120,55 @@ if (step1Data != null) {
 SELECT 
     JSON_VALUE(value, '$.JobName') as Step1Job
 FROM OPENJSON(@StepResultsJson, '$."1"')
+```
+
+### Conditional Execution: Branching to other Bundles
+
+You can use the `RunBundle` helper to trigger different workflows based on logic.
+
+#### Example: Branching based on Step 1 Success
+```csharp
+// Assume Step 1 returns a boolean or an object with a Success property
+var step1 = PreviousResult as dynamic;
+
+if (step1?.Success == true) {
+    Log("Step 1 passed! Triggering the 'Post-Deployment Audit' bundle.");
+    await RunBundle("Post-Deployment Audit");
+} else {
+    Log("Step 1 failed or found issues. Triggering 'Error Remediation' bundle.");
+    await RunBundle("Error Remediation");
+}
+
+return "Conditional flow completed.";
+```
+
+#### SQL Example: Signalling Success/Failure
+In T-SQL, you can return a result set that a subsequent C# "Router" rule can use:
+
+```sql
+-- Step 1: SQL Audit
+SELECT 
+    CASE WHEN COUNT(*) > 5 THEN 0 ELSE 1 END as IsValid,
+    COUNT(*) as ViolationCount
+FROM dbo.AutoSysJilJobs
+WHERE Machine IS NULL;
+```
+
+#### SQL Example: Consuming a Boolean from a Previous Step
+If Step 1 (C#) returns `new { RunCleanup = true }`, Step 2 (SQL) can react to it:
+
+```sql
+-- Step 2: Conditional SQL logic based on Step 1
+DECLARE @runCleanup BIT = JSON_VALUE(@PreviousResultJson, '$.RunCleanup');
+
+IF @runCleanup = 1
+BEGIN
+    PRINT 'Step 1 requested cleanup. Clearing temp audit tables...';
+    DELETE FROM dbo.AuditTemp;
+END
+
+-- Proceed with audit
+SELECT * FROM dbo.AutoSysJilJobs;
 ```
 
 ---

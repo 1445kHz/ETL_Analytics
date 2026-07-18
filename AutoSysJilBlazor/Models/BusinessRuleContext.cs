@@ -38,4 +38,10 @@ public class BusinessRuleContext
     /// Helper to log messages from within the script.
     /// </summary>
     public Action<string>? Log { get; set; }
+
+    /// <summary>
+    /// Allows a script to trigger the execution of another bundle by its name.
+    /// Returns the final result of the triggered bundle.
+    /// </summary>
+    public Func<string, Task<object?>>? RunBundle { get; set; }
 }

@@ -793,6 +793,26 @@ public class SqlDatabaseService
         await using var connection = new SqlConnection(_connectionString);
         await connection.ExecuteAsync(sql, new { Id = id });
     }
+
+    public async Task<BusinessRuleBundle?> GetBusinessRuleBundleByNameAsync(string name)
+    {
+        const string sql = "SELECT * FROM dbo.BusinessRuleBundles WHERE Name = @Name AND IsActive = 1;";
+        const string itemsSql = @"
+            SELECT i.*, r.Name as RuleName, r.RuleType 
+            FROM dbo.BusinessRuleBundleItems i
+            JOIN dbo.BusinessRules r ON i.RuleId = r.Id
+            WHERE i.BundleId = @BundleId
+            ORDER BY i.SequenceOrder;
+        ";
+        await using var connection = new SqlConnection(_connectionString);
+        var bundle = await connection.QueryFirstOrDefaultAsync<BusinessRuleBundle>(sql, new { Name = name });
+        if (bundle != null)
+        {
+            var items = await connection.QueryAsync<BusinessRuleBundleItem>(itemsSql, new { BundleId = bundle.Id });
+            bundle.Items = items.ToList();
+        }
+        return bundle;
+    }
 }
 
 

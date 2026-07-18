@@ -266,7 +266,6 @@
             };
 
             finalResult = await Engine.ExecuteBundleAsync(selectedBundle, baseContext, 
-                async id => await DbService.GetBusinessRuleByIdAsync(id),
                 line => {
                     _ = InvokeAsync(() => {
                         logs.Add($"[{DateTime.Now:HH:mm:ss}] {line}");

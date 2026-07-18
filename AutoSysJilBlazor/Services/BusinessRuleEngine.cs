@@ -11,11 +11,13 @@ namespace AutoSysJilBlazor.Services;
 public class BusinessRuleEngine
 {
     private readonly string _connectionString;
+    private readonly SqlDatabaseService _dbService;
 
-    public BusinessRuleEngine(IConfiguration configuration)
+    public BusinessRuleEngine(IConfiguration configuration, SqlDatabaseService dbService)
     {
         _connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
             ?? throw new InvalidOperationException("Environment variable 'DB_CONNECTION_STRING' is not set.");
+        _dbService = dbService;
     }
 
     public async Task<object?> ExecuteRuleAsync(
@@ -23,6 +25,21 @@ public class BusinessRuleEngine
         BusinessRuleContext? globals = null,
         Action<string>? appendLog = null)
     {
+        if (globals != null)
+        {
+            globals.RunBundle = async (name) =>
+            {
+                var bundle = await _dbService.GetBusinessRuleBundleByNameAsync(name);
+                if (bundle == null)
+                {
+                    appendLog?.Invoke($"[WARN] RunBundle: Bundle '{name}' not found.");
+                    return null;
+                }
+                appendLog?.Invoke($"[INFO] Triggering nested bundle: {name}");
+                return await ExecuteBundleAsync(bundle, globals, appendLog);
+            };
+        }
+
         appendLog?.Invoke($"[INFO] Starting execution of rule: {rule.Name} ({rule.RuleType})");
 
         try
@@ -50,7 +67,6 @@ public class BusinessRuleEngine
     public async Task<object?> ExecuteBundleAsync(
         BusinessRuleBundle bundle,
         BusinessRuleContext baseContext,
-        Func<int, Task<BusinessRule?>> getRuleById,
         Action<string>? appendLog = null)
     {
         appendLog?.Invoke($"[BUNDLE] --- Starting Bundle: {bundle.Name} ---");
@@ -58,7 +74,7 @@ public class BusinessRuleEngine
 
         foreach (var item in bundle.Items.OrderBy(i => i.SequenceOrder))
         {
-            var rule = await getRuleById(item.RuleId);
+            var rule = await _dbService.GetBusinessRuleByIdAsync(item.RuleId);
             if (rule == null)
             {
                 appendLog?.Invoke($"[ERR] Rule ID {item.RuleId} not found. Skipping.");
